@@ -18,6 +18,7 @@ import AppointmentShow from 'components/Appointment/Show'
 import AppointmentConfirm from 'components/Appointment/Confirm'
 import AppointmentStatus from 'components/Appointment/Status'
 import AppointmentError from 'components/Appointment/Error'
+import AppointmentForm from 'components/Appointment/Form'
 
 storiesOf("Button", module)
   .addParameters({
@@ -164,4 +165,36 @@ storiesOf("Appointment", module)
       message="Could not delete appointment."
       onClose={action("onClose")}
     />
+  ))
+  .add("Create Appointment", () => (
+    <AppointmentForm 
+      interviewers={interviewers}
+      onSave={action("onSave")}
+      onCancel={action("onCancel")}
+    />
+  ))
+  .add("Edit Appointment", () => (
+    <AppointmentForm 
+      name="Archie Cohen"
+      interviewer={1}
+      interviewers={interviewers}
+      onSave={action("onSave")}
+      onCancel={action("onCancel")}
+    />
+  ))
+  .add("Appointment Empty", () => (
+    <>
+      <Appointment id={1} time="12pm" />
+      <Appointment id="last" time="1pm" />
+    </>
+  ))
+  .add("Appointment Booked", () => (
+    <>
+      <Appointment
+        id={1}
+        time="12pm"
+        interview={{ student: "Lydia Miller-Jones", interviewer }}
+      />
+      <Appointment id="last" time="1pm" />
+    </>
   ))
