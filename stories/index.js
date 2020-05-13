@@ -159,7 +159,7 @@ storiesOf("Appointment", module)
     />
   ))
   .add("Status", () => <AppointmentStatus message="Deleting"/>)
-  .add("Status", () => (
+  .add("Error", () => (
     <AppointmentError 
       message="Could not delete appointment."
       onClose={action("onClose")}
