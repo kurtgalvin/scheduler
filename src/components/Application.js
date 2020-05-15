@@ -7,12 +7,11 @@ import Appointment from 'components/Appointment'
 import { getAppointmentsForDay, getInterviewersForDay, getInterview } from 'helpers/selectors'
 
 export default function Application(props) {
-  const setDay = day => setState({...state, day})
-
   const [state, setState] = useState({
     day: "Monday", 
     days: [],
-    appointments: {}
+    appointments: {},
+    interviewers: {}
   })
 
   useEffect(() => {
@@ -29,6 +28,21 @@ export default function Application(props) {
       })
     })
   }, [])
+
+  const setDay = day => setState({...state, day})
+
+  function bookInterview(id, interview) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    return axios.put(`/api/appointments/${id}`, { interview })
+      .then(() => setState({...state, appointments}))
+  }
 
   return (
     <main className="layout">
@@ -61,6 +75,7 @@ export default function Application(props) {
               {...appoint}
               interview={interview}
               interviewers={getInterviewersForDay(state, "Monday")}
+              bookInterview={interview => bookInterview(appoint.id, interview)}
             />
           )
         })}
