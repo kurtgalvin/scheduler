@@ -8,6 +8,7 @@ import Empty from './Empty'
 import Form from './Form'
 import Status from './Status'
 import Confirm from './Confirm'
+import Error from './Error'
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
@@ -78,6 +79,18 @@ const Appointment = function(props) {
           interviewers={props.interviewers}
           onCancel={back}
           onSave={save}
+        />
+      )}
+      {mode === ERROR_SAVE && (
+        <Error 
+          message="SAVE ERROR"
+          onClose={back}
+        />
+      )}
+      {mode === ERROR_DELETE && (
+        <Error 
+          message="DELETE ERROR"
+          onClose={back}
         />
       )}
     </article>
