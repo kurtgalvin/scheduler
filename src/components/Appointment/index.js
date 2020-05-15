@@ -16,6 +16,8 @@ const SAVING = "SAVING";
 const DELETING = "DELETING";
 const CONFIRM = "CONFIRM";
 const EDIT = "EDIT";
+const ERROR_SAVE = "ERROR_SAVE"
+const ERROR_DELETE = "ERROR_DELETE"
 
 const Appointment = function(props) {
   const { mode, transition, back } = useVisualMode(
@@ -30,12 +32,14 @@ const Appointment = function(props) {
     transition(SAVING);
     props.bookInterview(interview)
       .then(() => transition(SHOW))
+      .catch(() => transition(ERROR_SAVE, true))
   }
 
   function onDelete() {
-    transition(DELETING)
+    transition(DELETING, true)
     props.cancelInterview()
       .then(() => transition(EMPTY))
+      .catch(() => transition(ERROR_DELETE, true))
   }
 
   return (
