@@ -24,7 +24,7 @@ export default function() {
     })
   }, [])
 
-  const setDay = day => setState({...state, day})
+  const setDay = day => setState(prev => ({...prev, day}))
 
   function bookInterview(id, interview) {
     const appointment = {
@@ -36,7 +36,13 @@ export default function() {
       [id]: appointment
     };
     return axios.put(`/api/appointments/${id}`, { interview })
-      .then(() => setState({...state, appointments}))
+      .then(() => setState(prev => {
+        // Decrement available spots
+        const days = prev.days.map(day => {
+          return day.name === prev.day ? {...day, spots: day.spots - 1} : day
+        })
+        return {...prev, days, appointments}
+      }))
   }
 
   function cancelInterview(id) {
@@ -49,7 +55,13 @@ export default function() {
       [id]: appointment
     };
     return axios.delete(`/api/appointments/${id}`)
-      .then(() => setState({...state, appointments}))
+    .then(() => setState(prev => {
+      // Increment available spots
+      const days = prev.days.map(day => {
+        return day.name === prev.day ? {...day, spots: day.spots + 1} : day
+      })
+      return {...prev, days, appointments}
+    }))
   }
 
   return {

@@ -14,6 +14,21 @@ export default function Application(props) {
     cancelInterview
   } = useApplicationData();
 
+  const interviewers = getInterviewersForDay(state, state.day)
+  const appointments = getAppointmentsForDay(state, state.day).map(appoint => {
+    const interview = getInterview(state, appoint.interview);
+    return (
+      <Appointment 
+        key={appoint.id} 
+        {...appoint}
+        interview={interview}
+        interviewers={interviewers}
+        bookInterview={interview => bookInterview(appoint.id, interview)}
+        cancelInterview={() => cancelInterview(appoint.id)}
+      />
+    )
+  })
+
   return (
     <main className="layout">
       <section className="sidebar">
@@ -37,19 +52,7 @@ export default function Application(props) {
         />
       </section>
       <section className="schedule">
-        {getAppointmentsForDay(state, state.day).map(appoint => {
-          const interview = getInterview(state, appoint.interview);
-          return (
-            <Appointment 
-              key={appoint.id} 
-              {...appoint}
-              interview={interview}
-              interviewers={getInterviewersForDay(state, state.day)}
-              bookInterview={interview => bookInterview(appoint.id, interview)}
-              cancelInterview={() => cancelInterview(appoint.id)}
-            />
-          )
-        })}
+        {appointments}
         <Appointment key="last" time="5pm" />
       </section>
     </main>
