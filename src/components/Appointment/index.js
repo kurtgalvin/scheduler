@@ -7,12 +7,14 @@ import Show from './Show'
 import Empty from './Empty'
 import Form from './Form'
 import Status from './Status'
+import Confirm from './Confirm'
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
 const SAVING = "SAVING";
 const DELETING = "DELETING";
+const CONFIRM = "CONFIRM";
 
 const Appointment = function(props) {
   const { mode, transition, back } = useVisualMode(
@@ -44,7 +46,7 @@ const Appointment = function(props) {
           key={`${props.id}-Show`}
           student={props.interview.student}
           interviewer={props.interview.interviewer}
-          onDelete={onDelete}
+          onDelete={() => transition(CONFIRM)}
         />
       )}
       {mode === CREATE && (
@@ -54,11 +56,14 @@ const Appointment = function(props) {
           onSave={save}
         />
       )}
-      {mode === SAVING && (
-        <Status message="Saving" />
-      )}
-      {mode === DELETING && (
-        <Status message="Deleting" />
+      {mode === SAVING && <Status message="Saving" />}
+      {mode === DELETING && <Status message="Deleting" />}
+      {mode === CONFIRM && (
+        <Confirm 
+          message="Are you sure you would like to delete?"
+          onCancel={() => transition(SHOW)}
+          onConfirm={onDelete}
+        />
       )}
     </article>
   )
