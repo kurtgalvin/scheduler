@@ -12,6 +12,7 @@ const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
 const SAVING = "SAVING";
+const DELETING = "DELETING";
 
 const Appointment = function(props) {
   const { mode, transition, back } = useVisualMode(
@@ -28,6 +29,12 @@ const Appointment = function(props) {
       .then(() => transition(SHOW))
   }
 
+  function onDelete() {
+    transition(DELETING)
+    props.cancelInterview()
+      .then(() => transition(EMPTY))
+  }
+
   return (
     <article className="appointment">
       <Header time={props.time} />
@@ -37,6 +44,7 @@ const Appointment = function(props) {
           key={`${props.id}-Show`}
           student={props.interview.student}
           interviewer={props.interview.interviewer}
+          onDelete={onDelete}
         />
       )}
       {mode === CREATE && (
@@ -48,6 +56,9 @@ const Appointment = function(props) {
       )}
       {mode === SAVING && (
         <Status message="Saving" />
+      )}
+      {mode === DELETING && (
+        <Status message="Deleting" />
       )}
     </article>
   )
