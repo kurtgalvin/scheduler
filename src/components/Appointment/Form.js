@@ -6,7 +6,7 @@ import Button from 'components/Button'
 
 export default function(props) {
   const [name, setName] = useState(props.name || "")
-  const [interviewer, setInterviewer] = useState(props.interviewer || null)
+  const [interviewer, setInterviewer] = useState(props.interviewer ? props.interviewer.id : null)
 
   function reset() {
     setName("")
