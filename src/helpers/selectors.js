@@ -24,3 +24,13 @@ export function getInterview(state, interview) {
   } 
   return null
 }
+
+export function getSpotstForDay(state, day) {
+  let spots = 0;
+  for (const appointment of getAppointmentsForDay(state, day)) {
+    if (!appointment.interview) {
+      spots++
+    }
+  }
+  return spots
+}

@@ -1,8 +1,15 @@
-import { useState, useEffect } from 'react'
+import { useReducer, useEffect } from 'react'
 import axios from 'axios'
 
+import reducer, { 
+  QUERY_SERVER,
+  SET_DAY,
+  BOOK_INTERVIEW,
+  CANCEL_INTERVIEW
+} from './useApplicationDataReducer'
+
 export default function() {
-  const [state, setState] = useState({
+  const [state, dispatch] = useReducer(reducer, {
     day: "Monday", 
     days: [],
     appointments: {},
@@ -15,8 +22,8 @@ export default function() {
       axios.get("/api/appointments"),
       axios.get("/api/interviewers")
     ]).then(([days, appointments, interviewers]) => {
-      setState({
-        ...state, 
+      dispatch({
+        type: QUERY_SERVER,
         days: days.data, 
         appointments: appointments.data,
         interviewers: interviewers.data
@@ -24,44 +31,22 @@ export default function() {
     })
   }, [])
 
-  const setDay = day => setState(prev => ({...prev, day}))
+  function setDay(day) {
+    dispatch({ type: SET_DAY, day })
+  }
 
   function bookInterview(id, interview) {
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview }
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
     return axios.put(`/api/appointments/${id}`, { interview })
-      .then(() => setState(prev => {
-        // Decrement available spots
-        const days = prev.days.map(day => {
-          return day.name === prev.day ? {...day, spots: day.spots - 1} : day
-        })
-        return {...prev, days, appointments}
+      .then(() => dispatch({ 
+        type: BOOK_INTERVIEW, 
+        id,
+        interview
       }))
   }
 
   function cancelInterview(id) {
-    const appointment = {
-      ...state.appointments[id],
-      interview: null
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
     return axios.delete(`/api/appointments/${id}`)
-    .then(() => setState(prev => {
-      // Increment available spots
-      const days = prev.days.map(day => {
-        return day.name === prev.day ? {...day, spots: day.spots + 1} : day
-      })
-      return {...prev, days, appointments}
-    }))
+      .then(() => dispatch({ type: CANCEL_INTERVIEW, id }))
   }
 
   return {
