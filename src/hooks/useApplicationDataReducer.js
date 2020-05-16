@@ -32,7 +32,6 @@ function reducerCancelInterview(state, action) {
     ...state.appointments,
     [id]: appointment
   };
-  // Increment available spots
   const days = state.days.map(day => {
     return {...day, spots: getSpotstForDay({ ...state, appointments }, day.name)}
   })
