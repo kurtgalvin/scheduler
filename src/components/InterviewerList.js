@@ -10,6 +10,7 @@ export default function(props) {
       <ul className="interviewers__list">
         {props.interviewers.map(interviewer => {
           return <InterviewerListItem 
+            key={interviewer.id}
             {...interviewer} 
             setInterviewer={event => props.onChange(interviewer.id)} 
             selected={interviewer.id === props.value} 

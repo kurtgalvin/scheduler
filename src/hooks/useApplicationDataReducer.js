@@ -3,7 +3,8 @@ import { getSpotstForDay } from 'helpers/selectors'
 export const QUERY_SERVER = "QUERY_SERVER";
 export const SET_DAY = "SET_DAY";
 export const BOOK_INTERVIEW = "BOOK_INTERVIEW";
-export const CANCEL_INTERVIEW = "CANCEL_INTERVIEW"
+export const CANCEL_INTERVIEW = "CANCEL_INTERVIEW";
+export const SET_INTERVIEW = "SET_INTERVIEW";
 
 function reducerBookInterview(state, action) {
   const id = action.id
