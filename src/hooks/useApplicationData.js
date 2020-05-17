@@ -32,7 +32,7 @@ export default function() {
   }, [])
 
   useEffect(() => {
-    const socket = new WebSocket("ws://localhost:8001");
+    const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
     socket.onmessage = (event) => {
       const { id, interview } = JSON.parse(event.data)
       if (interview) {
