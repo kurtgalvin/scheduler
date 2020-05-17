@@ -26,8 +26,13 @@ const Appointment = function(props) {
   );
 
   useEffect(() => {
-    transition(props.interview ? SHOW : EMPTY)
-  }, [props.interview])
+    if (props.interview && mode === EMPTY) {
+     transition(SHOW);
+    }
+    if (props.interview === null && mode === SHOW) {
+     transition(EMPTY);
+    }
+   }, [props.interview, transition, mode]);
 
   function save(name, interviewer) {
     const interview = {
