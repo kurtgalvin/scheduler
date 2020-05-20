@@ -47,11 +47,11 @@ export default function reducer(state, action) {
       appointments: action.appointments,
       interviewers: action.interviewers
     }
-  // } else if (action.type === SET_DAY) {
-  //   return {
-  //     ...state,
-  //     day: action.day
-  //   }
+  } else if (action.type === SET_DAY) {
+    return {
+      ...state,
+      day: action.day
+    }
   } else if (action.type === BOOK_INTERVIEW) {
     const { days, appointments } = reducerBookInterview(state, action)
     return {
