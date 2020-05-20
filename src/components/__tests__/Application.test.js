@@ -1,5 +1,4 @@
 import React from "react";
-
 import { 
   render, 
   cleanup, 
@@ -10,9 +9,9 @@ import {
   getAllByTestId, 
   getByAltText,
   getByPlaceholderText,
-  queryByText,
-  queryByAltText
+  queryByText
 } from "@testing-library/react";
+import axios from "axios";
 
 import Application from "components/Application";
 
@@ -87,5 +86,85 @@ describe("Application", () => {
       return queryByText(day, "Monday")
     });
     expect(getByText(day, "2 spots remaining")).toBeInTheDocument()
+  })
+
+  test("loads data, edits an interview and keeps the spots remaining for Monday the same", async () => {
+    const { container } = render(<Application />);
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+
+    const appointment = getAllByTestId(container, "appointment").find(appoint => {
+      return queryByText(appoint, "Archie Cohen")
+    })
+    fireEvent.click(getByAltText(appointment, "Edit"))
+
+    fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
+      target: { value: "Lydia Miller-Jones" }
+    });
+
+    fireEvent.click(getByText(appointment, "Save"))
+
+    expect(getByText(appointment, "Saving")).toBeInTheDocument()
+
+    await waitForElement(() => getByText(appointment, "Lydia Miller-Jones"))
+
+    const day = getAllByTestId(container, "day").find(day => {
+      return queryByText(day, "Monday")
+    });
+    expect(getByText(day, "1 spot remaining")).toBeInTheDocument()
+  })
+
+  test("shows the save error when failing to save an appointment", async () => {
+    axios.put.mockRejectedValueOnce();
+
+    const { container } = render(<Application />);
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+
+    const appointment = getAllByTestId(container, "appointment")[0];
+
+    fireEvent.click(getByAltText(appointment, "Add"));
+
+    fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
+      target: { value: "Lydia Miller-Jones" }
+    });
+
+    fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
+
+    fireEvent.click(getByText(appointment, "Save"));
+
+    await waitForElement(() => getByText(appointment, "SAVE ERROR"));
+
+    fireEvent.click(getByAltText(appointment, "Close"))
+
+    expect(getByText(appointment, "Save")).toBeInTheDocument()
+
+    const day = getAllByTestId(container, "day").find(day => {
+      return queryByText(day, "Monday")
+    });
+    expect(getByText(day, "1 spot remaining")).toBeInTheDocument()
+  });
+
+  test("shows the delete error when failing to delete an existing appointment", async () => {
+    axios.delete.mockRejectedValueOnce();
+
+    const { container } = render(<Application />);
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+
+    const appointment = getAllByTestId(container, "appointment").find(appoint => {
+      return queryByText(appoint, "Archie Cohen")
+    })
+
+    fireEvent.click(getByAltText(appointment, "Delete"))
+    fireEvent.click(getByText(appointment, "Confirm"))
+
+    await waitForElement(() => getByText(appointment, "DELETE ERROR"))
+
+    fireEvent.click(getByAltText(appointment, "Close"))
+
+    expect(queryByText(appointment, "Archie Cohen"))
+
+    const day = getAllByTestId(container, "day").find(day => {
+      return queryByText(day, "Monday")
+    });
+    expect(getByText(day, "1 spot remaining")).toBeInTheDocument()
   })
 })
