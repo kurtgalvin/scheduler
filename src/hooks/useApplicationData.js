@@ -31,17 +31,17 @@ export default function() {
     })
   }, [])
 
-  useEffect(() => {
-    const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
-    socket.onmessage = (event) => {
-      const { id, interview } = JSON.parse(event.data)
-      if (interview) {
-        dispatch({ type: BOOK_INTERVIEW, id, interview })
-      } else {
-        dispatch({ type: CANCEL_INTERVIEW, id, interview })
-      }
-    }
-  }, [])
+  // useEffect(() => {
+  //   const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+  //   socket.onmessage = (event) => {
+  //     const { id, interview } = JSON.parse(event.data)
+  //     if (interview) {
+  //       dispatch({ type: BOOK_INTERVIEW, id, interview })
+  //     } else {
+  //       dispatch({ type: CANCEL_INTERVIEW, id, interview })
+  //     }
+  //   }
+  // }, [])
 
   function setDay(day) {
     dispatch({ type: SET_DAY, day })
