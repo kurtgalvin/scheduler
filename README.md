@@ -1,23 +1,19 @@
 # Interview Scheduler
 
-## Setup
+## About
+[Interview Scheduler](https://nifty-poincare-b9a997.netlify.app/ "Interview Scheduler Home Page")
 
-Install dependencies with `npm install`.
+### Stack
+- React 
+- Webpack
+- Babel
+- Axios
+- WebSockets
 
-## Running Webpack Development Server
+### Testing
+- Storybook
+- Webpack Dev Server
+- Jest
+- React Testing Library
 
-```sh
-npm start
-```
-
-## Running Jest Test Framework
-
-```sh
-npm test
-```
-
-## Running Storybook Visual Testbed
-
-```sh
-npm run storybook
-```
+### Deployment
