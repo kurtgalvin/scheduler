@@ -3,6 +3,8 @@
 ## About
 [Interview Scheduler](https://nifty-poincare-b9a997.netlify.app/ "Interview Scheduler Home Page") is a fully deployed React app for scheduling interviews with mentors live, with the help of WebSockets.
 
+[API](https://github.com/kurtgalvin/scheduler-api)
+
 ### Stack
 - React 
 - Webpack
