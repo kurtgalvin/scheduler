@@ -3,13 +3,6 @@
 ## About
 [Interview Scheduler](https://nifty-poincare-b9a997.netlify.app/ "Interview Scheduler Home Page") is a fully deployed React app for scheduling interviews with mentors live, with the help of WebSockets.
 
-## Media
-[WebSocket Recording](https://youtu.be/5ySYhE-FUo8)
-
-![Empty](./screenshots/empty.png)
-![Form](./screenshots/form.png)
-![Show](./screenshots/show.png)
-
 ### Stack
 - React 
 - Webpack
@@ -28,6 +21,13 @@
 - Heroku (API)
 - Netlify (Client)
 - CircleCI (Client)
+
+## Media
+[WebSocket Recording](https://youtu.be/5ySYhE-FUo8)
+
+![Empty](./screenshots/empty.png)
+![Form](./screenshots/form.png)
+![Show](./screenshots/show.png)
 
 ## Reflection
 - Developed as part of the Lighthouse Labs Web development bootcamp.
