@@ -6,7 +6,7 @@ import reducer, {
   SET_DAY,
   BOOK_INTERVIEW,
   CANCEL_INTERVIEW
-} from './useApplicationDataReducer'
+} from './applicationDataReducer'
 
 export default function() {
   const [state, dispatch] = useReducer(reducer, {

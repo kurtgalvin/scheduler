@@ -3,7 +3,7 @@ import reducer, {
   SET_DAY,
   BOOK_INTERVIEW,
   CANCEL_INTERVIEW
-} from '../useApplicationDataReducer'
+} from '../applicationDataReducer'
 
 const state = {
   days: [
